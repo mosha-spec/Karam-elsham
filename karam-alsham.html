@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كرم الشام | مطعم سوري فاخر - بلقاس، الدقهلية</title>
+<meta name="description" content="كرم الشام - أصالة المطبخ السوري بلمسة فاخرة. شاورما، مشاوي، وجبات عائلية في بلقاس، الدقهلية. اطلب الآن أو تواصل معنا واتساب.">
+<meta name="keywords" content="مطعم سوري, شاورما, بلقاس, الدقهلية, مشاوي, كرم الشام, مطعم فاخر">
+<meta property="og:title" content="كرم الشام | مطعم سوري فاخر">
+<meta property="og:description" content="أصالة المطبخ السوري بلمسة فاخرة - بلقاس، الدقهلية">
+<meta property="og:type" content="restaurant.restaurant">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "كرم الشام",
+  "servesCuisine": "Syrian",
+  "telephone": "+201030323672",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "بلقاس",
+    "addressRegion": "الدقهلية",
+    "addressCountry": "EG"
+  },
+  "priceRange": "$$"
+}
+</script>
+<style>
+  :root{
+    --bg:#050505;
+    --card:#111111;
+    --gold:#C9A227;
+    --accent:#F5E7B2;
+    --text2:#BBBBBB;
+  }
+  *{cursor:default;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:#fff;
+    font-family:'Tajawal','Cairo',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.font-display{font-family:'Cairo',sans-serif;}
+  ::selection{background:var(--gold);color:#050505;}
+
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:#0a0a0a;}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#C9A227,#8a6e17);border-radius:10px;}
+
+  .gold-text{
+    background:linear-gradient(120deg,#F5E7B2 0%,#C9A227 45%,#8a6e17 65%,#F5E7B2 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    background-size:200% auto;
+  }
+  .gold-line{
+    height:1px;
+    background:linear-gradient(90deg,transparent,#C9A227,transparent);
+  }
+  .card-glass{
+    background:rgba(17,17,17,0.6);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border:1px solid rgba(201,162,39,0.15);
+  }
+  .card-premium{
+    background:var(--card);
+    border:1px solid rgba(201,162,39,0.12);
+    border-radius:24px;
+    transition:all .5s cubic-bezier(.19,1,.22,1);
+  }
+  .card-premium:hover{
+    border-color:rgba(201,162,39,0.55);
+    box-shadow:0 25px 60px -15px rgba(201,162,39,0.25);
+    transform:translateY(-6px);
+  }
+  .btn-gold{
+    background:linear-gradient(135deg,#F5E7B2,#C9A227 60%,#8a6e17);
+    color:#0a0a0a;
+    font-weight:700;
+    border-radius:100px;
+    position:relative;
+    overflow:hidden;
+    transition:all .4s cubic-bezier(.19,1,.22,1);
+  }
+  .btn-gold:hover{
+    box-shadow:0 15px 40px -8px rgba(201,162,39,0.55);
+    transform:translateY(-3px);
+  }
+  .btn-outline{
+    border:1px solid rgba(201,162,39,0.4);
+    color:#F5E7B2;
+    border-radius:100px;
+    backdrop-filter:blur(10px);
+    transition:all .4s cubic-bezier(.19,1,.22,1);
+  }
+  .btn-outline:hover{
+    background:rgba(201,162,39,0.1);
+    border-color:#C9A227;
+    transform:translateY(-3px);
+  }
+
+  #loader{
+    position:fixed;inset:0;z-index:9999;
+    background:#050505;
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;
+    transition:opacity .9s ease, visibility .9s ease;
+  }
+  .particle{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,#F5E7B2,#C9A227 70%,transparent);
+    opacity:0;
+  }
+
+  .nav-blur{
+    background:rgba(5,5,5,0.55);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border-bottom:1px solid rgba(201,162,39,0.12);
+  }
+  .nav-link{position:relative;}
+  .nav-link::after{
+    content:'';position:absolute;bottom:-6px;right:0;width:0;height:1px;
+    background:var(--gold);transition:width .4s cubic-bezier(.19,1,.22,1);
+  }
+  .nav-link:hover::after{width:100%;}
+
+  .hero-bg{
+    background-image:linear-gradient(180deg,rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.75) 55%, #050505 100%), url('https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=2000&q=80');
+    background-size:cover;background-position:center;
+  }
+  .float-food{position:absolute;filter:drop-shadow(0 20px 30px rgba(0,0,0,.6));animation:floaty 7s ease-in-out infinite;}
+  @keyframes floaty{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-22px) rotate(4deg);}
+  }
+
+  .menu-tab{
+    border:1px solid rgba(201,162,39,0.25);
+    color:var(--text2);
+    border-radius:100px;
+    transition:all .35s ease;
+    white-space:nowrap;
+  }
+  .menu-tab.active, .menu-tab:hover{
+    background:var(--gold);color:#0a0a0a;border-color:var(--gold);
+  }
+
+  .fav-btn.active svg{fill:#C9A227;color:#C9A227;}
+
+  .badge-discount{
+    background:linear-gradient(135deg,#F5E7B2,#C9A227);
+    color:#0a0a0a;
+    border-radius:100px;
+  }
+
+  .fade-up{opacity:0;transform:translateY(40px);}
+
+  .gallery-item{border-radius:20px;overflow:hidden;position:relative;cursor:zoom-in;}
+  .gallery-item img{transition:transform .8s cubic-bezier(.19,1,.22,1);}
+  .gallery-item:hover img{transform:scale(1.12);}
+
+  .star{color:#C9A227;}
+
+  .whatsapp-float{
+    position:fixed;bottom:24px;left:24px;z-index:50;
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    box-shadow:0 10px 30px rgba(37,211,102,0.4);
+    animation:pulse-wa 2.4s infinite;
+  }
+  @keyframes pulse-wa{
+    0%{box-shadow:0 0 0 0 rgba(37,211,102,.55);}
+    70%{box-shadow:0 0 0 16px rgba(37,211,102,0);}
+    100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+  }
+
+  #cursor-dot{
+    position:fixed;width:8px;height:8px;background:#C9A227;border-radius:50%;
+    pointer-events:none;z-index:9998;transform:translate(-50%,-50%);
+    transition:transform .15s ease;
+  }
+  #cursor-ring{
+    position:fixed;width:36px;height:36px;border:1px solid rgba(201,162,39,.6);border-radius:50%;
+    pointer-events:none;z-index:9998;transform:translate(-50%,-50%);
+    transition:transform .18s ease, width .3s ease, height .3s ease, background .3s ease;
+  }
+  @media (max-width:1024px){ #cursor-dot,#cursor-ring{display:none;} }
+
+  .lightbox{position:fixed;inset:0;background:rgba(5,5,5,0.96);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s ease;}
+  .lightbox.open{opacity:1;pointer-events:all;}
+
+  input::placeholder{color:#888;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="relative flex flex-col items-center">
+    <div id="particles" class="absolute inset-0 pointer-events-none" style="width:260px;height:260px;top:-40px;left:50%;transform:translateX(-50%);"></div>
+    <h1 class="font-display text-4xl md:text-6xl font-black gold-text tracking-wide">كرم الشام</h1>
+    <p class="text-[#BBBBBB] mt-3 text-sm tracking-[6px] uppercase">Karam Al Sham</p>
+    <div class="w-40 h-[2px] bg-white/10 mt-8 overflow-hidden rounded-full">
+      <div id="loader-bar" class="h-full w-0 bg-gradient-to-r from-[#F5E7B2] to-[#C9A227]"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="header" class="fixed top-0 inset-x-0 z-40 transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-20">
+    <a href="#home" class="font-display text-2xl font-black gold-text">كرم الشام</a>
+    <nav class="hidden lg:flex items-center gap-8 text-sm text-[#dddddd]">
+      <a href="#home" class="nav-link">الرئيسية</a>
+      <a href="#menu" class="nav-link">القائمة</a>
+      <a href="#offers" class="nav-link">العروض</a>
+      <a href="#gallery" class="nav-link">المعرض</a>
+      <a href="#reviews" class="nav-link">آراء العملاء</a>
+      <a href="#about" class="nav-link">من نحن</a>
+      <a href="#contact" class="nav-link">تواصل معنا</a>
+    </nav>
+    <div class="hidden md:flex items-center gap-3">
+      <a href="https://wa.me/201030323672" target="_blank" class="btn-outline px-5 py-2.5 text-sm flex items-center gap-2">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> واتساب
+      </a>
+      <a href="#menu" class="btn-gold px-6 py-2.5 text-sm">اطلب الآن</a>
+    </div>
+    <button id="menu-toggle" class="lg:hidden text-white"><i data-lucide="menu" class="w-7 h-7"></i></button>
+  </div>
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="lg:hidden hidden nav-blur border-t border-[#C9A227]/10 px-6 py-6 flex flex-col gap-5 text-[#eee]">
+    <a href="#home">الرئيسية</a>
+    <a href="#menu">القائمة</a>
+    <a href="#offers">العروض</a>
+    <a href="#gallery">المعرض</a>
+    <a href="#reviews">آراء العملاء</a>
+    <a href="#about">من نحن</a>
+    <a href="#contact">تواصل معنا</a>
+    <a href="https://wa.me/201030323672" class="btn-gold text-center py-3 mt-2">اطلب عبر واتساب</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="home" class="relative min-h-screen flex items-center hero-bg">
+  <div class="float-food hidden md:block" style="top:18%;right:8%;width:120px;animation-delay:0s;">
+    <img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=300&q=70" class="rounded-full w-28 h-28 object-cover border-2 border-[#C9A227]/40">
+  </div>
+  <div class="float-food hidden md:block" style="bottom:22%;right:16%;width:90px;animation-delay:2s;">
+    <img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=300&q=70" class="rounded-full w-20 h-20 object-cover border-2 border-[#C9A227]/40">
+  </div>
+  <div class="max-w-7xl mx-auto px-6 md:px-10 w-full relative z-10 pt-20">
+    <div class="max-w-2xl">
+      <p class="fade-up text-[#F5E7B2] tracking-[6px] text-xs md:text-sm uppercase mb-5">مطعم سوري أصيل — بلقاس</p>
+      <h1 class="fade-up font-display text-5xl sm:text-6xl md:text-7xl font-black leading-[1.1] mb-6">
+        <span class="gold-text">كرم الشام</span><br>حيث تلتقي الأصالة بالفخامة
+      </h1>
+      <p class="fade-up text-[#BBBBBB] text-base md:text-lg leading-relaxed mb-10 max-w-xl">
+        نُقدّم لكم نكهات الشام الأصيلة، بمكوّنات طازجة يوميًا وحرفية طهي متوارثة، في تجربة تليق بذوقكم الرفيع.
+      </p>
+      <div class="fade-up flex flex-wrap gap-4">
+        <a href="#menu" class="btn-gold px-9 py-4 text-base flex items-center gap-2">
+          عرض القائمة <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </a>
+        <a href="https://wa.me/201030323672" target="_blank" class="btn-outline px-9 py-4 text-base flex items-center gap-2">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i> اطلب الآن
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-8 inset-x-0 flex justify-center">
+    <div class="w-[1px] h-14 bg-gradient-to-b from-[#C9A227] to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-28 md:py-36 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
+    <div class="relative fade-up order-2 md:order-1">
+      <div class="rounded-[24px] overflow-hidden border border-[#C9A227]/20">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1000&q=80" class="w-full h-[480px] object-cover" alt="أجواء كرم الشام">
+      </div>
+      <div class="absolute -bottom-8 -right-8 card-glass rounded-[24px] px-8 py-6 hidden sm:block">
+        <p class="font-display text-4xl font-black gold-text">+8</p>
+        <p class="text-[#BBBBBB] text-sm mt-1">سنوات خبرة</p>
+      </div>
+    </div>
+    <div class="order-1 md:order-2 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">من نحن</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black mb-6 leading-tight">حكاية نكهة <span class="gold-text">لم تتغيّر</span></h2>
+      <p class="text-[#BBBBBB] leading-loose mb-6">
+        وُلدت فكرة "كرم الشام" من حنين إلى مذاق البيت السوري الأصيل. نختار مكوناتنا يوميًا بعناية فائقة، ونطهو كل طبق بروح الضيافة الشامية التي تُشعرك أنك في زيارة عائلية، لا مجرد وجبة عابرة.
+      </p>
+      <p class="text-[#BBBBBB] leading-loose mb-10">
+        فريقنا من الطهاة المتخصصين يجمع بين الوصفات التقليدية ولمسة عصرية راقية، ليصل إليكم كل طبق بجودة تليق باسم الشام.
+      </p>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="flex items-center gap-3">
+          <i data-lucide="wheat" class="text-[#C9A227] w-6 h-6"></i>
+          <span class="text-sm text-[#ddd]">مكوّنات طازجة يوميًا</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i data-lucide="chef-hat" class="text-[#C9A227] w-6 h-6"></i>
+          <span class="text-sm text-[#ddd]">طهاة سوريون أصليون</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="py-24 md:py-32 bg-[#080808] border-y border-[#C9A227]/10">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="text-center mb-16 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">لماذا كرم الشام</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black">تجربة تستحق <span class="gold-text">ثقتكم</span></h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="why-cards">
+      <!-- injected -->
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="py-28 md:py-36">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="text-center mb-14 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">قائمتنا</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black">تذوّق <span class="gold-text">الشام</span></h2>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-5 items-center justify-between mb-10 fade-up">
+      <div class="relative w-full md:w-80">
+        <i data-lucide="search" class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-[#888]"></i>
+        <input id="menu-search" type="text" placeholder="ابحث عن طبق..." class="w-full bg-[#111111] border border-[#C9A227]/20 rounded-full py-3 pr-11 pl-4 text-sm outline-none focus:border-[#C9A227] transition">
+      </div>
+    </div>
+
+    <div id="menu-tabs" class="flex gap-3 overflow-x-auto pb-4 mb-10 fade-up" style="scrollbar-width:none;"></div>
+
+    <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+  </div>
+</section>
+
+<!-- OFFERS -->
+<section id="offers" class="py-28 md:py-36 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 30% 20%, #C9A227, transparent 60%);"></div>
+  <div class="max-w-7xl mx-auto px-6 md:px-10 relative">
+    <div class="card-premium p-8 md:p-14 mb-14 fade-up" style="background:linear-gradient(135deg,#151107,#0a0a0a);">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="text-center md:text-right">
+          <p class="text-[#F5E7B2] tracking-[4px] text-xs uppercase mb-3">عرض اليوم</p>
+          <h3 class="font-display text-3xl md:text-4xl font-black mb-3">خصم <span class="gold-text">25%</span> على وجبات العائلة</h3>
+          <p class="text-[#BBBBBB]">العرض ساري لفترة محدودة — لا تفوّت الفرصة</p>
+        </div>
+        <div id="countdown" class="flex gap-3 md:gap-4">
+          <div class="text-center card-glass rounded-2xl px-4 py-3 w-20"><p id="cd-h" class="text-2xl font-black gold-text">00</p><p class="text-[10px] text-[#999] mt-1">ساعة</p></div>
+          <div class="text-center card-glass rounded-2xl px-4 py-3 w-20"><p id="cd-m" class="text-2xl font-black gold-text">00</p><p class="text-[10px] text-[#999] mt-1">دقيقة</p></div>
+          <div class="text-center card-glass rounded-2xl px-4 py-3 w-20"><p id="cd-s" class="text-2xl font-black gold-text">00</p><p class="text-[10px] text-[#999] mt-1">ثانية</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-7" id="offer-cards"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-28 md:py-36 bg-[#080808] border-y border-[#C9A227]/10">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="text-center mb-14 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">المعرض</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black">لحظات من <span class="gold-text">كرم الشام</span></h2>
+    </div>
+    <div class="columns-2 md:columns-3 gap-5 space-y-5" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="py-28 md:py-36 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="text-center mb-14 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">آراء عملائنا</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black">ماذا يقولون <span class="gold-text">عنا</span></h2>
+    </div>
+    <div id="reviews-track" class="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory" style="scroll-behavior:smooth;"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="py-24 border-y border-[#C9A227]/10 bg-[#080808]">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+    <div><p class="counter font-display text-4xl md:text-5xl font-black gold-text" data-target="15000">0</p><p class="text-[#999] mt-2 text-sm">عميل سعيد</p></div>
+    <div><p class="counter font-display text-4xl md:text-5xl font-black gold-text" data-target="42000">0</p><p class="text-[#999] mt-2 text-sm">طلب مكتمل</p></div>
+    <div><p class="counter font-display text-4xl md:text-5xl font-black gold-text" data-target="8">0</p><p class="text-[#999] mt-2 text-sm">سنوات خبرة</p></div>
+    <div><p class="counter font-display text-4xl md:text-5xl font-black gold-text" data-target="4900" data-suffix="/5">0</p><p class="text-[#999] mt-2 text-sm">تقييم إيجابي</p></div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="py-28 md:py-36">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-3 gap-8">
+    <div class="fade-up md:col-span-1">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">التوصيل</p>
+      <h2 class="font-display text-4xl font-black leading-tight mb-5">طعامك يصلك <span class="gold-text">ساخنًا وطازجًا</span></h2>
+      <p class="text-[#BBBBBB] leading-loose">نحرص على أن تصل وجبتك في أفضل حالاتها، بتغليف آمن وسرعة توصيل تحافظ على المذاق الأصيل.</p>
+    </div>
+    <div class="md:col-span-2 grid sm:grid-cols-3 gap-6">
+      <div class="card-premium p-7 text-center fade-up">
+        <i data-lucide="zap" class="w-8 h-8 text-[#C9A227] mx-auto mb-4"></i>
+        <h4 class="font-bold mb-2">توصيل سريع</h4>
+        <p class="text-[#999] text-sm">خلال دقائق معدودة لضمان الطزاجة</p>
+      </div>
+      <div class="card-premium p-7 text-center fade-up">
+        <i data-lucide="leaf" class="w-8 h-8 text-[#C9A227] mx-auto mb-4"></i>
+        <h4 class="font-bold mb-2">مكونات طازجة</h4>
+        <p class="text-[#999] text-sm">تحضير يومي بأعلى معايير الجودة</p>
+      </div>
+      <div class="card-premium p-7 text-center fade-up">
+        <i data-lucide="shield-check" class="w-8 h-8 text-[#C9A227] mx-auto mb-4"></i>
+        <h4 class="font-bold mb-2">تغليف آمن</h4>
+        <p class="text-[#999] text-sm">عناية كاملة بالنظافة والسلامة</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="py-28 md:py-36 bg-[#080808] border-y border-[#C9A227]/10">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="text-center mb-14 fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">موقعنا</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black">تفضّلوا <span class="gold-text">بزيارتنا</span></h2>
+      <p class="text-[#BBBBBB] mt-3">بلقاس - محافظة الدقهلية - جمهورية مصر العربية</p>
+    </div>
+    <div class="rounded-[24px] overflow-hidden border border-[#C9A227]/20 fade-up">
+      <iframe src="https://www.google.com/maps?q=بلقاس،الدقهلية&output=embed" width="100%" height="440" style="border:0;filter:invert(90%) hue-rotate(180deg) contrast(90%);" loading="lazy"></iframe>
+    </div>
+    <div class="text-center mt-8 fade-up">
+      <a href="https://www.google.com/maps?q=بلقاس،الدقهلية" target="_blank" class="btn-gold px-8 py-3.5 inline-flex items-center gap-2">
+        <i data-lucide="navigation" class="w-4 h-4"></i> احصل على الاتجاهات
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-28 md:py-36">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-14">
+    <div class="fade-up">
+      <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">تواصل معنا</p>
+      <h2 class="font-display text-4xl md:text-5xl font-black mb-8">نسعد <span class="gold-text">بخدمتكم</span></h2>
+      <div class="space-y-5 mb-10">
+        <a href="tel:01030323672" class="flex items-center gap-4 card-premium p-5">
+          <div class="w-12 h-12 rounded-full bg-[#C9A227]/10 flex items-center justify-center"><i data-lucide="phone" class="text-[#C9A227] w-5 h-5"></i></div>
+          <div><p class="text-sm text-[#999]">اتصل بنا</p><p class="font-bold" dir="ltr">01030323672</p></div>
+        </a>
+        <a href="https://wa.me/201030323672" target="_blank" class="flex items-center gap-4 card-premium p-5">
+          <div class="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center"><i data-lucide="message-circle" class="text-[#25D366] w-5 h-5"></i></div>
+          <div><p class="text-sm text-[#999]">واتساب</p><p class="font-bold" dir="ltr">01030323672</p></div>
+        </a>
+        <a href="#" target="_blank" class="flex items-center gap-4 card-premium p-5">
+          <div class="w-12 h-12 rounded-full bg-[#1877F2]/10 flex items-center justify-center"><i data-lucide="facebook" class="text-[#1877F2] w-5 h-5"></i></div>
+          <div><p class="text-sm text-[#999]">فيسبوك</p><p class="font-bold">صفحة كرم الشام</p></div>
+        </a>
+      </div>
+      <div class="card-premium p-6">
+        <h4 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="clock" class="w-5 h-5 text-[#C9A227]"></i> مواعيد العمل</h4>
+        <div class="flex justify-between text-sm text-[#BBBBBB] py-2 border-b border-white/5"><span>السبت - الخميس</span><span>12:00 ظهرًا - 2:00 صباحًا</span></div>
+        <div class="flex justify-between text-sm text-[#BBBBBB] py-2"><span>الجمعة</span><span>4:00 عصرًا - 2:00 صباحًا</span></div>
+      </div>
+    </div>
+
+    <div class="fade-up card-premium p-8">
+      <h3 class="font-display text-2xl font-black mb-2">احجز طاولتك</h3>
+      <p class="text-[#999] text-sm mb-8">سنتواصل معكم لتأكيد الحجز</p>
+      <form id="reserve-form" class="space-y-5">
+        <input required type="text" placeholder="الاسم الكامل" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        <input required type="tel" placeholder="رقم الهاتف" dir="ltr" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        <div class="grid grid-cols-2 gap-4">
+          <input required type="date" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+          <input required type="time" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        </div>
+        <input type="number" min="1" placeholder="عدد الأفراد" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        <button type="submit" class="btn-gold w-full py-4 text-sm font-bold">تأكيد الحجز</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#C9A227]/10 pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-14">
+      <div>
+        <h3 class="font-display text-2xl font-black gold-text mb-4">كرم الشام</h3>
+        <p class="text-[#999] text-sm leading-loose">أصالة المطبخ السوري بلمسة فاخرة، في قلب بلقاس.</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-sm">روابط سريعة</h4>
+        <div class="flex flex-col gap-2 text-sm text-[#999]">
+          <a href="#menu" class="hover:text-[#C9A227] transition">القائمة</a>
+          <a href="#offers" class="hover:text-[#C9A227] transition">العروض</a>
+          <a href="#gallery" class="hover:text-[#C9A227] transition">المعرض</a>
+          <a href="#contact" class="hover:text-[#C9A227] transition">تواصل معنا</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-sm">تواصل</h4>
+        <p class="text-[#999] text-sm" dir="ltr">01030323672</p>
+        <p class="text-[#999] text-sm mt-2">بلقاس، الدقهلية، مصر</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-sm">تابعنا</h4>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+          <a href="#" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          <a href="https://wa.me/201030323672" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="gold-line mb-6"></div>
+    <p class="text-center text-[#666] text-xs">© 2026 كرم الشام. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+<!-- floating buttons -->
+<a href="https://wa.me/201030323672" target="_blank" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center">
+  <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
+</a>
+<button id="back-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full btn-gold flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+  <i data-lucide="arrow-up" class="w-5 h-5"></i>
+</button>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <button id="lightbox-close" class="absolute top-6 left-6 text-white/70 hover:text-white"><i data-lucide="x" class="w-8 h-8"></i></button>
+  <img id="lightbox-img" src="" class="max-w-[90vw] max-h-[85vh] rounded-2xl object-contain">
+</div>
+
+<script>
+lucide.createIcons();
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- DATA ---------- */
+const categories = [
+  {id:'shawarma', name:'شاورما'},
+  {id:'grills', name:'مشاوي'},
+  {id:'meals', name:'وجبات'},
+  {id:'chicken', name:'دجاج'},
+  {id:'sandwiches', name:'سندويشات'},
+  {id:'crepes', name:'كريب'},
+  {id:'falafel', name:'فلافل'},
+  {id:'appetizers', name:'مقبلات'},
+  {id:'fries', name:'بطاطس'},
+  {id:'drinks', name:'مشروبات'},
+  {id:'desserts', name:'حلويات'},
+];
+
+const menuItems = [
+  {name:'شاورما لحم فاخرة', cat:'shawarma', price:120, oldPrice:150, desc:'شرائح لحم طازجة متبّلة بتوابل الشام الأصيلة', img:'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=600&q=75'},
+  {name:'شاورما دجاج مشوية', cat:'shawarma', price:95, desc:'دجاج مشوي طري بصوص الثوم الخاص', img:'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=600&q=75'},
+  {name:'مشاوي مشكلة كرم الشام', cat:'grills', price:280, oldPrice:340, desc:'تشكيلة فاخرة من أشهى المشاوي السورية', img:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=75'},
+  {name:'كباب حلبي', cat:'grills', price:160, desc:'كباب لحم بلدي على الفحم بالطريقة الحلبية', img:'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=75'},
+  {name:'وجبة عائلية كبيرة', cat:'meals', price:450, oldPrice:600, desc:'تكفي 4-5 أفراد، تشكيلة كاملة من أطباقنا المميزة', img:'https://images.unsplash.com/photo-1547573854-74d2a71d0826?auto=format&fit=crop&w=600&q=75'},
+  {name:'فروج مشوي كامل', cat:'chicken', price:180, desc:'فروج طازج متبّل ومشوي على الفحم', img:'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=600&q=75'},
+  {name:'سندويش فاهيتا دجاج', cat:'sandwiches', price:70, desc:'خبز طازج، دجاج متبل، خضار مقرمشة', img:'https://images.unsplash.com/photo-1553909489-cd47e0907980?auto=format&fit=crop&w=600&q=75'},
+  {name:'كريب نوتيلا وموز', cat:'crepes', price:85, desc:'كريب طازج محشو بالنوتيلا والموز الطبيعي', img:'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=600&q=75'},
+  {name:'فلافل شامية مقرمشة', cat:'falafel', price:45, desc:'مقادير طازجة يومياً، مقرمشة من الخارج طرية من الداخل', img:'https://images.unsplash.com/photo-1593001872095-7d5b3868fb1d?auto=format&fit=crop&w=600&q=75'},
+  {name:'حمص بالطحينة', cat:'appetizers', price:40, desc:'حمص كريمي بزيت الزيتون البكر', img:'https://images.unsplash.com/photo-1571197119282-7c4e2b6e1b6a?auto=format&fit=crop&w=600&q=75'},
+  {name:'بطاطس ذهبية مقرمشة', cat:'fries', price:35, desc:'بطاطس مقلية بزيت نقي وتتبيلة خاصة', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=75'},
+  {name:'عصير مانجو طازج', cat:'drinks', price:30, desc:'مانجو طبيعي 100% بدون إضافات', img:'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=75'},
+  {name:'كنافة نابلسية', cat:'desserts', price:60, desc:'كنافة طازجة بالجبنة والقطر الأصلي', img:'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=600&q=75'},
+];
+
+const galleryImages = [
+  'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1547573854-74d2a71d0826?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=75',
+  'https://images.unsplash.com/photo-1553909489-cd47e0907980?auto=format&fit=crop&w=700&q=75',
+];
+
+const reviews = [
+  {name:'أحمد كمال', text:'أفضل شاورما تذوقتها في الدقهلية بجد، المكان راقي والخدمة محترمة جداً.', stars:5},
+  {name:'مروة السيد', text:'الوجبة العائلية كانت أكثر من رائعة، الطعم أصلي ويحسسك إنك في الشام فعلاً.', stars:5},
+  {name:'محمود عادل', text:'التوصيل سريع والأكل بيوصل سخن، المشاوي كانت تحفة حقيقية.', stars:5},
+  {name:'سارة ياسر', text:'ديكور المكان فخم والاهتمام بالتفاصيل واضح من أول لحظة.', stars:4},
+];
+
+const whyCards = [
+  {icon:'wheat', title:'مكونات طازجة', desc:'نختار أجود المكونات يومياً لضمان أعلى جودة'},
+  {icon:'truck', title:'توصيل سريع', desc:'نصلك في أسرع وقت دون التأثير على الجودة'},
+  {icon:'chef-hat', title:'طهاة محترفون', desc:'خبرة سورية أصيلة في كل طبق نقدمه'},
+  {icon:'users', title:'وجبات عائلية', desc:'تشكيلات مصممة خصيصاً للعائلات الكبيرة'},
+  {icon:'flame', title:'أفضل شاورما', desc:'وصفة سرية توارثناها بفخر عبر الأجيال'},
+  {icon:'sparkles', title:'خدمة ممتازة', desc:'ضيافة شامية حقيقية تشعرك بالتميز'},
+];
+
+/* ---------- RENDER ---------- */
+function renderWhy(){
+  document.getElementById('why-cards').innerHTML = whyCards.map(c=>`
+    <div class="card-premium p-8 fade-up">
+      <div class="w-14 h-14 rounded-2xl bg-[#C9A227]/10 flex items-center justify-center mb-6">
+        <i data-lucide="${c.icon}" class="text-[#C9A227] w-6 h-6"></i>
+      </div>
+      <h4 class="font-bold text-lg mb-2">${c.title}</h4>
+      <p class="text-[#999] text-sm leading-relaxed">${c.desc}</p>
+    </div>`).join('');
+}
+
+function renderTabs(){
+  const wrap = document.getElementById('menu-tabs');
+  wrap.innerHTML = `<button data-cat="all" class="menu-tab active px-6 py-2.5 text-sm">الكل</button>` +
+    categories.map(c=>`<button data-cat="${c.id}" class="menu-tab px-6 py-2.5 text-sm">${c.name}</button>`).join('');
+  wrap.querySelectorAll('.menu-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      wrap.querySelectorAll('.menu-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      renderMenu();
+    });
+  });
+}
+
+let activeCat = 'all';
+let favorites = new Set();
+
+function renderMenu(){
+  const search = document.getElementById('menu-search').value.trim();
+  const grid = document.getElementById('menu-grid');
+  const filtered = menuItems.filter(it=>{
+    const matchCat = activeCat==='all' || it.cat===activeCat;
+    const matchSearch = !search || it.name.includes(search) || it.desc.includes(search);
+    return matchCat && matchSearch;
+  });
+  if(filtered.length===0){
+    grid.innerHTML = `<p class="col-span-full text-center text-[#777] py-16">لا توجد نتائج مطابقة لبحثك</p>`;
+    return;
+  }
+  grid.innerHTML = filtered.map((it,i)=>`
+    <div class="card-premium overflow-hidden group fade-up">
+      <div class="relative h-52 overflow-hidden">
+        <img src="${it.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        ${it.oldPrice ? `<span class="badge-discount absolute top-4 left-4 text-xs font-bold px-3 py-1">خصم ${Math.round((1-it.price/it.oldPrice)*100)}%</span>` : ''}
+        <button class="fav-btn absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur flex items-center justify-center" data-name="${it.name}">
+          <i data-lucide="heart" class="w-4 h-4 text-white"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <h4 class="font-bold text-lg mb-1">${it.name}</h4>
+        <p class="text-[#999] text-sm mb-4 leading-relaxed">${it.desc}</p>
+        <div class="flex items-center justify-between">
+          <div class="flex items-baseline gap-2">
+            <span class="text-[#C9A227] font-black text-xl">${it.price} ج.م</span>
+            ${it.oldPrice ? `<span class="text-[#666] text-sm line-through">${it.oldPrice} ج.م</span>` : ''}
+          </div>
+          <button class="add-cart-btn w-10 h-10 rounded-full btn-gold flex items-center justify-center">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+  lucide.createIcons();
+
+  grid.querySelectorAll('.fav-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      b.classList.toggle('active');
+      const n = b.dataset.name;
+      favorites.has(n) ? favorites.delete(n) : favorites.add(n);
+    });
+  });
+  grid.querySelectorAll('.add-cart-btn').forEach(b=>{
+    b.addEventListener('click', (e)=>{
+      gsap.fromTo(b, {scale:1}, {scale:1.4, duration:.15, yoyo:true, repeat:1, ease:'power2.out'});
+      const icon = b.querySelector('i');
+      icon.setAttribute('data-lucide','check');
+      lucide.createIcons();
+      setTimeout(()=>{ icon.setAttribute('data-lucide','plus'); lucide.createIcons(); }, 900);
+    });
+  });
+}
+
+function renderGallery(){
+  document.getElementById('gallery-grid').innerHTML = galleryImages.map(src=>`
+    <div class="gallery-item break-inside-avoid fade-up">
+      <img src="${src}" loading="lazy" class="w-full h-auto">
+    </div>`).join('');
+  document.querySelectorAll('.gallery-item img').forEach(img=>{
+    img.addEventListener('click', ()=>{
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+    });
+  });
+}
+
+function renderOfferCards(){
+  const offers = menuItems.filter(i=>i.oldPrice).slice(0,3);
+  document.getElementById('offer-cards').innerHTML = offers.map(o=>`
+    <div class="card-premium overflow-hidden fade-up">
+      <div class="relative h-44"><img src="${o.img}" class="w-full h-full object-cover">
+        <span class="badge-discount absolute top-4 left-4 text-xs font-bold px-3 py-1">خصم ${Math.round((1-o.price/o.oldPrice)*100)}%</span>
+      </div>
+      <div class="p-6">
+        <h4 class="font-bold mb-2">${o.name}</h4>
+        <div class="flex items-baseline gap-2">
+          <span class="text-[#C9A227] font-black text-lg">${o.price} ج.م</span>
+          <span class="text-[#666] text-sm line-through">${o.oldPrice} ج.م</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderReviews(){
+  document.getElementById('reviews-track').innerHTML = reviews.map(r=>`
+    <div class="min-w-[300px] md:min-w-[360px] card-premium p-8 snap-start fade-up">
+      <div class="flex gap-1 mb-4">${Array(r.stars).fill('<i data-lucide="star" class="star w-4 h-4 fill-current"></i>').join('')}</div>
+      <p class="text-[#ccc] leading-relaxed mb-6">"${r.text}"</p>
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-full bg-[#C9A227]/15 flex items-center justify-center font-bold text-[#C9A227]">${r.name[0]}</div>
+        <p class="font-bold text-sm">${r.name}</p>
+      </div>
+    </div>`).join('');
+  lucide.createIcons();
+}
+
+renderWhy(); renderTabs(); renderMenu(); renderGallery(); renderOfferCards(); renderReviews();
+lucide.createIcons();
+
+document.getElementById('menu-search').addEventListener('input', renderMenu);
+
+/* ---------- COUNTDOWN ---------- */
+const target = new Date(); target.setHours(target.getHours()+8, target.getMinutes()+30);
+function tickCountdown(){
+  const diff = target - new Date();
+  if(diff<=0) return;
+  const h = String(Math.floor(diff/3600000)).padStart(2,'0');
+  const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = h;
+  document.getElementById('cd-m').textContent = m;
+  document.getElementById('cd-s').textContent = s;
+}
+tickCountdown(); setInterval(tickCountdown, 1000);
+
+/* ---------- COUNTERS ---------- */
+function animateCounters(){
+  document.querySelectorAll('.counter').forEach(el=>{
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix || '';
+    gsap.fromTo(el, {innerText:0}, {
+      innerText:target, duration:2, ease:'power2.out', snap:{innerText:1},
+      onUpdate:function(){ el.textContent = Math.floor(el.innerText).toLocaleString() + suffix; },
+      scrollTrigger:{trigger:el, start:'top 85%', once:true}
+    });
+  });
+}
+animateCounters();
+
+/* ---------- SCROLL ANIMATIONS ---------- */
+gsap.utils.toArray('.fade-up').forEach((el,i)=>{
+  gsap.to(el, {
+    opacity:1, y:0, duration:.9, ease:'power3.out', delay:(i%3)*0.05,
+    scrollTrigger:{trigger:el, start:'top 90%'}
+  });
+});
+
+/* Hero entrance (immediate, not scroll-based) */
+gsap.to('#home .fade-up', {opacity:1, y:0, duration:1, stagger:0.15, ease:'power3.out', delay:0.3});
+
+/* ---------- HEADER SCROLL STATE ---------- */
+const header = document.getElementById('header');
+window.addEventListener('scroll', ()=>{
+  if(window.scrollY>40){ header.classList.add('nav-blur'); } else { header.classList.remove('nav-blur'); }
+  const backTop = document.getElementById('back-top');
+  if(window.scrollY>600){ backTop.classList.remove('opacity-0','pointer-events-none'); }
+  else { backTop.classList.add('opacity-0','pointer-events-none'); }
+});
+document.getElementById('back-top').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ---------- MOBILE MENU ---------- */
+const toggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', ()=>{
+  mobileMenu.classList.toggle('hidden');
+  const icon = toggle.querySelector('i');
+  icon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+  lucide.createIcons();
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>mobileMenu.classList.add('hidden')));
+
+/* ---------- LIGHTBOX ---------- */
+document.getElementById('lightbox-close').addEventListener('click', ()=>document.getElementById('lightbox').classList.remove('open'));
+document.getElementById('lightbox').addEventListener('click', (e)=>{ if(e.target.id==='lightbox') e.currentTarget.classList.remove('open'); });
+
+/* ---------- RESERVE FORM ---------- */
+document.getElementById('reserve-form').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  btn.textContent = 'تم إرسال الحجز بنجاح ✓';
+  btn.classList.add('opacity-80');
+  setTimeout(()=>{ btn.textContent = 'تأكيد الحجز'; e.target.reset(); }, 2500);
+});
+
+/* ---------- CUSTOM CURSOR ---------- */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+window.addEventListener('mousemove', (e)=>{
+  dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
+  ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter', ()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.background='rgba(201,162,39,0.12)'; });
+  el.addEventListener('mouseleave', ()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.background='transparent'; });
+});
+
+/* ---------- HERO PARALLAX ---------- */
+const heroSection = document.getElementById('home');
+heroSection.addEventListener('mousemove', (e)=>{
+  const x = (e.clientX/window.innerWidth - 0.5) * 20;
+  const y = (e.clientY/window.innerHeight - 0.5) * 20;
+  gsap.to('.float-food', {x:x, y:y, duration:1, ease:'power2.out'});
+});
+
+/* ---------- LOADER + PARTICLES ---------- */
+const particlesWrap = document.getElementById('particles');
+for(let i=0;i<26;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  const size = 2+Math.random()*4;
+  p.style.width=size+'px'; p.style.height=size+'px';
+  p.style.left = Math.random()*100+'%'; p.style.top = Math.random()*100+'%';
+  particlesWrap.appendChild(p);
+  gsap.to(p, {
+    opacity: 0.8, duration:0.6, delay:Math.random()*1.2,
+    onComplete:()=>{
+      gsap.to(p, {y:-40-Math.random()*40, opacity:0, duration:1.4+Math.random(), ease:'power1.out'});
+    }
+  });
+}
+gsap.to('#loader-bar', {width:'100%', duration:1.8, ease:'power2.inOut'});
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    const loader = document.getElementById('loader');
+    loader.style.opacity='0';
+    setTimeout(()=>{ loader.style.visibility='hidden'; loader.style.display='none'; }, 900);
+  }, 1600);
+});
+</script>
+</body>
+</html>
