@@ -10,6 +10,10 @@
 <meta property="og:description" content="أصالة المطبخ السوري بلمسة فاخرة - بلقاس، الدقهلية">
 <meta property="og:type" content="restaurant.restaurant">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:url" content="https://karamalsham.example.com">
+<meta property="og:locale" content="ar_EG">
+<link rel="canonical" href="https://karamalsham.example.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -21,15 +25,19 @@
   "@context": "https://schema.org",
   "@type": "Restaurant",
   "name": "كرم الشام",
-  "servesCuisine": "Syrian",
+  "servesCuisine": ["Syrian","Middle Eastern"],
   "telephone": "+201030323672",
+  "url": "https://karamalsham.example.com",
+  "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=1200&q=80",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "بلقاس",
     "addressRegion": "الدقهلية",
     "addressCountry": "EG"
   },
-  "priceRange": "$$"
+  "geo": {"@type":"GeoCoordinates","latitude":31.2140,"longitude":31.3547},
+  "openingHours": ["Sa-Th 12:00-02:00","Fr 16:00-02:00"],
+  "priceRange": "EGP 30-600"
 }
 </script>
 <style>
@@ -40,7 +48,10 @@
     --accent:#F5E7B2;
     --text2:#BBBBBB;
   }
-  *{cursor:default;}
+  /* تم إزالة cursor:default لأنه يكسر UX - تم استبداله */
+  html{scroll-padding-top:80px;} /* يمنع اختفاء العناوين تحت الهيدر */
+  a,button,[role="button"],.gallery-item,.fav-btn,.add-cart-btn{cursor:pointer;}
+  input,textarea{cursor:text;}
   html{scroll-behavior:smooth;}
   body{
     background:var(--bg);
@@ -57,7 +68,8 @@
 
   .gold-text{
     background:linear-gradient(120deg,#F5E7B2 0%,#C9A227 45%,#8a6e17 65%,#F5E7B2 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
     background-size:200% auto;
   }
   .gold-line{
@@ -163,6 +175,9 @@
   }
 
   .fade-up{opacity:0;transform:translateY(40px);}
+  /* FIX: menu items should not stay hidden when re-rendered */
+  #menu-grid .fade-up{opacity:1;transform:none;}
+  #menu-grid .card-premium{opacity:1;transform:none;}
 
   .gallery-item{border-radius:20px;overflow:hidden;position:relative;cursor:zoom-in;}
   .gallery-item img{transition:transform .8s cubic-bezier(.19,1,.22,1);}
@@ -198,6 +213,7 @@
   .lightbox.open{opacity:1;pointer-events:all;}
 
   input::placeholder{color:#888;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 </style>
 </head>
 <body class="antialiased">
@@ -232,7 +248,7 @@
       <a href="#contact" class="nav-link">تواصل معنا</a>
     </nav>
     <div class="hidden md:flex items-center gap-3">
-      <a href="https://wa.me/201030323672" target="_blank" class="btn-outline px-5 py-2.5 text-sm flex items-center gap-2">
+      <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="btn-outline px-5 py-2.5 text-sm flex items-center gap-2">
         <i data-lucide="message-circle" class="w-4 h-4"></i> واتساب
       </a>
       <a href="#menu" class="btn-gold px-6 py-2.5 text-sm">اطلب الآن</a>
@@ -273,7 +289,7 @@
         <a href="#menu" class="btn-gold px-9 py-4 text-base flex items-center gap-2">
           عرض القائمة <i data-lucide="arrow-left" class="w-4 h-4"></i>
         </a>
-        <a href="https://wa.me/201030323672" target="_blank" class="btn-outline px-9 py-4 text-base flex items-center gap-2">
+        <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="btn-outline px-9 py-4 text-base flex items-center gap-2">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i> اطلب الآن
         </a>
       </div>
@@ -445,10 +461,10 @@
       <p class="text-[#BBBBBB] mt-3">بلقاس - محافظة الدقهلية - جمهورية مصر العربية</p>
     </div>
     <div class="rounded-[24px] overflow-hidden border border-[#C9A227]/20 fade-up">
-      <iframe src="https://www.google.com/maps?q=بلقاس،الدقهلية&output=embed" width="100%" height="440" style="border:0;filter:invert(90%) hue-rotate(180deg) contrast(90%);" loading="lazy"></iframe>
+      <iframe title="خريطة موقع كرم الشام" src="https://www.google.com/maps?q=31.2140,31.3547&z=15&output=embed" width="100%" height="440" style="border:0;filter:invert(90%) hue-rotate(180deg) contrast(90%);" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="text-center mt-8 fade-up">
-      <a href="https://www.google.com/maps?q=بلقاس،الدقهلية" target="_blank" class="btn-gold px-8 py-3.5 inline-flex items-center gap-2">
+      <a href="https://www.google.com/maps?q=بلقاس،الدقهلية" target="_blank" rel="noopener noreferrer" class="btn-gold px-8 py-3.5 inline-flex items-center gap-2">
         <i data-lucide="navigation" class="w-4 h-4"></i> احصل على الاتجاهات
       </a>
     </div>
@@ -462,15 +478,15 @@
       <p class="text-[#F5E7B2] tracking-[5px] text-xs uppercase mb-4">تواصل معنا</p>
       <h2 class="font-display text-4xl md:text-5xl font-black mb-8">نسعد <span class="gold-text">بخدمتكم</span></h2>
       <div class="space-y-5 mb-10">
-        <a href="tel:01030323672" class="flex items-center gap-4 card-premium p-5">
+        <a href="tel:+201030323672" class="flex items-center gap-4 card-premium p-5">
           <div class="w-12 h-12 rounded-full bg-[#C9A227]/10 flex items-center justify-center"><i data-lucide="phone" class="text-[#C9A227] w-5 h-5"></i></div>
           <div><p class="text-sm text-[#999]">اتصل بنا</p><p class="font-bold" dir="ltr">01030323672</p></div>
         </a>
-        <a href="https://wa.me/201030323672" target="_blank" class="flex items-center gap-4 card-premium p-5">
+        <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 card-premium p-5">
           <div class="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center"><i data-lucide="message-circle" class="text-[#25D366] w-5 h-5"></i></div>
           <div><p class="text-sm text-[#999]">واتساب</p><p class="font-bold" dir="ltr">01030323672</p></div>
         </a>
-        <a href="#" target="_blank" class="flex items-center gap-4 card-premium p-5">
+        <a href="#" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 card-premium p-5">
           <div class="w-12 h-12 rounded-full bg-[#1877F2]/10 flex items-center justify-center"><i data-lucide="facebook" class="text-[#1877F2] w-5 h-5"></i></div>
           <div><p class="text-sm text-[#999]">فيسبوك</p><p class="font-bold">صفحة كرم الشام</p></div>
         </a>
@@ -486,8 +502,8 @@
       <h3 class="font-display text-2xl font-black mb-2">احجز طاولتك</h3>
       <p class="text-[#999] text-sm mb-8">سنتواصل معكم لتأكيد الحجز</p>
       <form id="reserve-form" class="space-y-5">
-        <input required type="text" placeholder="الاسم الكامل" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
-        <input required type="tel" placeholder="رقم الهاتف" dir="ltr" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        <label class="sr-only">الاسم الكامل</label><input required type="text" name="name" autocomplete="name" aria-label="الاسم الكامل" placeholder="الاسم الكامل" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
+        <label class="sr-only">رقم الهاتف</label><input required type="tel" name="phone" autocomplete="tel" aria-label="رقم الهاتف" placeholder="رقم الهاتف" dir="ltr" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
         <div class="grid grid-cols-2 gap-4">
           <input required type="date" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
           <input required type="time" class="w-full bg-[#0a0a0a] border border-[#C9A227]/20 rounded-2xl py-3.5 px-5 text-sm outline-none focus:border-[#C9A227] transition">
@@ -536,7 +552,7 @@
 </footer>
 
 <!-- floating buttons -->
-<a href="https://wa.me/201030323672" target="_blank" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center">
+<a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center">
   <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
 </a>
 <button id="back-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full btn-gold flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
@@ -625,6 +641,7 @@ function renderWhy(){
 
 function renderTabs(){
   const wrap = document.getElementById('menu-tabs');
+  if(!wrap) return;
   wrap.innerHTML = `<button data-cat="all" class="menu-tab active px-6 py-2.5 text-sm">الكل</button>` +
     categories.map(c=>`<button data-cat="${c.id}" class="menu-tab px-6 py-2.5 text-sm">${c.name}</button>`).join('');
   wrap.querySelectorAll('.menu-tab').forEach(btn=>{
@@ -632,6 +649,8 @@ function renderTabs(){
       wrap.querySelectorAll('.menu-tab').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       activeCat = btn.dataset.cat;
+      // small visual feedback
+      if(window.gsap) gsap.fromTo(btn, {scale:0.92}, {scale:1, duration:0.25, ease:'back.out(2)'});
       renderMenu();
     });
   });
@@ -641,23 +660,28 @@ let activeCat = 'all';
 let favorites = new Set();
 
 function renderMenu(){
-  const search = document.getElementById('menu-search').value.trim();
+  const searchEl = document.getElementById('menu-search');
+  const search = searchEl ? searchEl.value.trim() : '';
   const grid = document.getElementById('menu-grid');
+  if(!grid) return;
   const filtered = menuItems.filter(it=>{
     const matchCat = activeCat==='all' || it.cat===activeCat;
-    const matchSearch = !search || it.name.includes(search) || it.desc.includes(search);
+    const q = search.toLowerCase();
+    const name = it.name.toLowerCase();
+    const desc = it.desc.toLowerCase();
+    const matchSearch = !q || name.includes(q) || desc.includes(q);
     return matchCat && matchSearch;
   });
   if(filtered.length===0){
-    grid.innerHTML = `<p class="col-span-full text-center text-[#777] py-16">لا توجد نتائج مطابقة لبحثك</p>`;
+    grid.innerHTML = `<div class="col-span-full text-center py-16"><p class="text-[#777] mb-3">لا توجد نتائج لـ "${search}" في ${activeCat==='all' ? 'كل الأقسام' : activeCat}</p><button onclick="document.getElementById('menu-search').value='';activeCat='all';document.querySelectorAll('.menu-tab').forEach(b=>b.classList.remove('active'));document.querySelector('.menu-tab[data-cat=all]').classList.add('active');renderMenu();" class="text-[#C9A227] text-sm underline">مسح الفلتر</button></div>`;
     return;
   }
   grid.innerHTML = filtered.map((it,i)=>`
     <div class="card-premium overflow-hidden group fade-up">
       <div class="relative h-52 overflow-hidden">
-        <img src="${it.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        <img src="${it.img}" alt="${it.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
         ${it.oldPrice ? `<span class="badge-discount absolute top-4 left-4 text-xs font-bold px-3 py-1">خصم ${Math.round((1-it.price/it.oldPrice)*100)}%</span>` : ''}
-        <button class="fav-btn absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur flex items-center justify-center" data-name="${it.name}">
+        <button class="fav-btn absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur flex items-center justify-center" aria-label="إضافة للمفضلة" data-name="${it.name}">
           <i data-lucide="heart" class="w-4 h-4 text-white"></i>
         </button>
       </div>
@@ -669,13 +693,25 @@ function renderMenu(){
             <span class="text-[#C9A227] font-black text-xl">${it.price} ج.م</span>
             ${it.oldPrice ? `<span class="text-[#666] text-sm line-through">${it.oldPrice} ج.م</span>` : ''}
           </div>
-          <button class="add-cart-btn w-10 h-10 rounded-full btn-gold flex items-center justify-center">
+          <button class="add-cart-btn w-10 h-10 rounded-full btn-gold flex items-center justify-center" aria-label="إضافة للسلة">
             <i data-lucide="plus" class="w-4 h-4"></i>
           </button>
         </div>
       </div>
     </div>`).join('');
   lucide.createIcons();
+  
+  // FIX: ensure new cards are visible even if GSAP ScrollTrigger was already initialized
+  if(window.gsap){
+    gsap.killTweensOf(grid.querySelectorAll('.card-premium'));
+    gsap.fromTo(grid.querySelectorAll('.card-premium'), 
+      {opacity:0, y:16}, 
+      {opacity:1, y:0, duration:0.45, stagger:0.04, ease:'power2.out', overwrite:'auto', clearProps:'transform'}
+    );
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
+  } else {
+    grid.querySelectorAll('.card-premium').forEach(el=>{ el.style.opacity='1'; el.style.transform='none'; });
+  }
 
   grid.querySelectorAll('.fav-btn').forEach(b=>{
     b.addEventListener('click', ()=>{
@@ -712,7 +748,7 @@ function renderOfferCards(){
   const offers = menuItems.filter(i=>i.oldPrice).slice(0,3);
   document.getElementById('offer-cards').innerHTML = offers.map(o=>`
     <div class="card-premium overflow-hidden fade-up">
-      <div class="relative h-44"><img src="${o.img}" class="w-full h-full object-cover">
+      <div class="relative h-44"><img src="${o.img}" alt="${o.name}" loading="lazy" class="w-full h-full object-cover">
         <span class="badge-discount absolute top-4 left-4 text-xs font-bold px-3 py-1">خصم ${Math.round((1-o.price/o.oldPrice)*100)}%</span>
       </div>
       <div class="p-6">
@@ -743,8 +779,8 @@ lucide.createIcons();
 
 document.getElementById('menu-search').addEventListener('input', renderMenu);
 
-/* ---------- COUNTDOWN ---------- */
-const target = new Date(); target.setHours(target.getHours()+8, target.getMinutes()+30);
+/* ---------- COUNTDOWN - FIXED to end of today ---------- */
+const target = new Date(); target.setHours(23,59,59,999);
 function tickCountdown(){
   const diff = target - new Date();
   if(diff<=0) return;
@@ -792,16 +828,21 @@ window.addEventListener('scroll', ()=>{
 });
 document.getElementById('back-top').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-/* ---------- MOBILE MENU ---------- */
+/* ---------- MOBILE MENU - FIXED ---------- */
 const toggle = document.getElementById('menu-toggle');
 const mobileMenu = document.getElementById('mobile-menu');
-toggle.addEventListener('click', ()=>{
-  mobileMenu.classList.toggle('hidden');
-  const icon = toggle.querySelector('i');
-  icon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+function setMenuIcon(name){
+  toggle.innerHTML = `<i data-lucide="${name}" class="w-7 h-7"></i>`;
   lucide.createIcons();
+}
+toggle.addEventListener('click', ()=>{
+  const isHidden = mobileMenu.classList.toggle('hidden');
+  setMenuIcon(isHidden ? 'menu' : 'x');
 });
-mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>mobileMenu.classList.add('hidden')));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  mobileMenu.classList.add('hidden');
+  setMenuIcon('menu');
+}));
 
 /* ---------- LIGHTBOX ---------- */
 document.getElementById('lightbox-close').addEventListener('click', ()=>document.getElementById('lightbox').classList.remove('open'));
@@ -816,17 +857,24 @@ document.getElementById('reserve-form').addEventListener('submit', (e)=>{
   setTimeout(()=>{ btn.textContent = 'تأكيد الحجز'; e.target.reset(); }, 2500);
 });
 
-/* ---------- CUSTOM CURSOR ---------- */
+/* ---------- CUSTOM CURSOR - FIXED (uses quickTo + disable on touch) ---------- */
 const dot = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
-window.addEventListener('mousemove', (e)=>{
-  dot.style.left = e.clientX+'px'; dot.style.top = e.clientY+'px';
-  ring.style.left = e.clientX+'px'; ring.style.top = e.clientY+'px';
-});
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter', ()=>{ ring.style.width='56px'; ring.style.height='56px'; ring.style.background='rgba(201,162,39,0.12)'; });
-  el.addEventListener('mouseleave', ()=>{ ring.style.width='36px'; ring.style.height='36px'; ring.style.background='transparent'; });
-});
+const isTouch = window.matchMedia('(pointer: coarse)').matches;
+if(!isTouch && dot && ring){
+  const xDot = gsap.quickTo(dot, 'x', {duration:0.15, ease:'power2.out'});
+  const yDot = gsap.quickTo(dot, 'y', {duration:0.15, ease:'power2.out'});
+  const xRing = gsap.quickTo(ring, 'x', {duration:0.35, ease:'power3.out'});
+  const yRing = gsap.quickTo(ring, 'y', {duration:0.35, ease:'power3.out'});
+  window.addEventListener('mousemove', (e)=>{
+    xDot(e.clientX); yDot(e.clientY);
+    xRing(e.clientX); yRing(e.clientY);
+  });
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{ gsap.to(ring,{width:56,height:56,background:'rgba(201,162,39,0.12)',duration:0.3}); });
+    el.addEventListener('mouseleave', ()=>{ gsap.to(ring,{width:36,height:36,background:'transparent',duration:0.3}); });
+  });
+}
 
 /* ---------- HERO PARALLAX ---------- */
 const heroSection = document.getElementById('home');
@@ -853,10 +901,13 @@ for(let i=0;i<26;i++){
   });
 }
 gsap.to('#loader-bar', {width:'100%', duration:1.8, ease:'power2.inOut'});
+document.body.style.overflow='hidden'; // منع السكرول أثناء اللودر
 window.addEventListener('load', ()=>{
   setTimeout(()=>{
     const loader = document.getElementById('loader');
     loader.style.opacity='0';
+    document.body.style.overflow=''; // إرجاع السكرول
+    gsap.killTweensOf('.particle'); // توفير CPU
     setTimeout(()=>{ loader.style.visibility='hidden'; loader.style.display='none'; }, 900);
   }, 1600);
 });
