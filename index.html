@@ -31,6 +31,7 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -38,6 +39,7 @@
   "name": "كرم الشام",
   "servesCuisine": ["Syrian","Middle Eastern"],
   "telephone": "+201030323672",
+  "contactPoint": [{"@type":"ContactPoint","telephone":"+201030323672","contactType":"customer service","availableLanguage":"ar"},{"@type":"ContactPoint","telephone":"+201030070597","contactType":"customer support","contactOption":"HearingImpairedCallCentre"}],
   "url": "https://karamalsham.example.com",
   "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=1200&q=80",
   "address": {
@@ -240,6 +242,25 @@
   #toast{position:fixed;bottom:96px;left:50%;transform:translate(-50%,16px);z-index:95;pointer-events:none;opacity:0;transition:all .35s cubic-bezier(.19,1,.22,1);}
   #toast.show{opacity:1;transform:translate(-50%,0);}
 
+  /* INVOICE TEMPLATE - hidden but capturable */
+  #invoice-capture{position:fixed;left:-9999px;top:0;width:740px;background:#fff;color:#111;padding:0;font-family:'Tajawal','Cairo',sans-serif;direction:rtl;}
+  .inv-wrap{border:3px solid #C9A227;border-radius:18px;overflow:hidden;}
+  .inv-header{background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);color:#fff;padding:28px 32px;text-align:center;border-bottom:3px solid #C9A227;}
+  .inv-header h1{font-family:'Cairo',sans-serif;font-weight:900;font-size:32px;color:#C9A227;margin:0;letter-spacing:1px;}
+  .inv-header p{color:#bbb;font-size:13px;margin:6px 0 0;}
+  .inv-body{padding:24px 28px;background:#fff;}
+  .inv-meta{display:flex;justify-content:space-between;gap:16px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px dashed #ddd;}
+  .inv-meta div{font-size:13px;line-height:1.8;color:#333;}
+  .inv-meta strong{color:#111;}
+  .inv-table{width:100%;border-collapse:collapse;margin:10px 0 16px;}
+  .inv-table th{background:#111;color:#C9A227;font-size:12px;padding:10px 12px;text-align:right;border-bottom:2px solid #C9A227;}
+  .inv-table td{padding:10px 12px;font-size:13px;border-bottom:1px solid #eee;color:#222;}
+  .inv-total{background:#fdf6d8;border:1px solid #f0d78a;border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+  .inv-total .label{font-weight:700;font-size:14px;color:#111;}
+  .inv-total .value{font-weight:900;font-size:20px;color:#8a6e17;}
+  .inv-footer{text-align:center;padding:14px 20px;background:#fafafa;border-top:1px solid #eee;font-size:11px;color:#777;line-height:1.7;}
+
+
   /* ACCESSIBILITY */
   .skip-link{position:absolute;top:-100%;right:16px;z-index:10000;background:#C9A227;color:#000;padding:10px 18px;border-radius:0 0 12px 12px;font-weight:700;font-size:13px;transition:top .25s ease;}
   .skip-link:focus{top:0;outline:none;}
@@ -290,7 +311,7 @@
         <i data-lucide="shopping-bag" class="w-5 h-5 text-[#F5E7B2]"></i>
         <span id="cart-count" class="absolute -top-1 -right-1 min-w-[19px] h-[19px] px-1 text-[11px] font-black bg-gradient-to-br from-[#F5E7B2] to-[#C9A227] text-black rounded-full flex items-center justify-center opacity-0 scale-0 transition-all duration-300">0</span>
       </button>
-      <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="btn-outline px-5 py-2.5 text-sm flex items-center gap-2">
+      <a href="https://wa.me/201030070597" target="_blank" rel="noopener noreferrer" class="btn-outline px-5 py-2.5 text-sm flex items-center gap-2">
         <i data-lucide="message-circle" class="w-4 h-4"></i> واتساب
       </a>
       <a href="#menu" class="btn-gold px-6 py-2.5 text-sm">اطلب الآن</a>
@@ -312,7 +333,7 @@
     <a href="#reviews">آراء العملاء</a>
     <a href="#about">من نحن</a>
     <a href="#contact">تواصل معنا</a>
-    <a href="https://wa.me/201030323672" class="btn-gold text-center py-3 mt-2">اطلب عبر واتساب</a>
+    <a href="https://wa.me/201030070597" class="btn-gold text-center py-3 mt-2">اطلب عبر واتساب</a>
   </div>
 </header>
 <main id="main">
@@ -337,7 +358,7 @@
         <a href="#menu" class="btn-gold px-9 py-4 text-base flex items-center gap-2">
           عرض القائمة <i data-lucide="arrow-left" class="w-4 h-4"></i>
         </a>
-        <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="btn-outline px-9 py-4 text-base flex items-center gap-2">
+        <a href="https://wa.me/201030070597" target="_blank" rel="noopener noreferrer" class="btn-outline px-9 py-4 text-base flex items-center gap-2">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i> اطلب الآن
         </a>
       </div>
@@ -530,9 +551,9 @@
           <div class="w-12 h-12 rounded-full bg-[#C9A227]/10 flex items-center justify-center"><i data-lucide="phone" class="text-[#C9A227] w-5 h-5"></i></div>
           <div><p class="text-sm text-[#999]">اتصل بنا</p><p class="font-bold" dir="ltr">01030323672</p></div>
         </a>
-        <a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 card-premium p-5">
+        <a href="https://wa.me/201030070597" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 card-premium p-5">
           <div class="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center"><i data-lucide="message-circle" class="text-[#25D366] w-5 h-5"></i></div>
-          <div><p class="text-sm text-[#999]">واتساب</p><p class="font-bold" dir="ltr">01030323672</p></div>
+          <div><p class="text-sm text-[#999]">واتساب</p><p class="font-bold" dir="ltr">01030070597</p></div>
         </a>
         <a href="#" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 card-premium p-5">
           <div class="w-12 h-12 rounded-full bg-[#1877F2]/10 flex items-center justify-center"><i data-lucide="facebook" class="text-[#1877F2] w-5 h-5"></i></div>
@@ -583,7 +604,8 @@
       </div>
       <div>
         <h4 class="font-bold mb-4 text-sm">تواصل</h4>
-        <p class="text-[#999] text-sm" dir="ltr">01030323672</p>
+        <p class="text-[#999] text-sm" dir="ltr">01030323672 <span class="text-[10px] text-[#666]">(رنين فقط)</span></p>
+        <p class="text-[#25D366] text-sm mt-1.5 font-bold" dir="ltr">01030070597 <span class="text-[10px] text-[#666] font-normal">(واتساب)</span></p>
         <p class="text-[#999] text-sm mt-2">بلقاس، الدقهلية، مصر</p>
       </div>
       <div>
@@ -591,7 +613,7 @@
         <div class="flex gap-3">
           <a href="#" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
           <a href="#" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-          <a href="https://wa.me/201030323672" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+          <a href="https://wa.me/201030070597" class="w-10 h-10 rounded-full border border-[#C9A227]/20 flex items-center justify-center hover:bg-[#C9A227] hover:text-black transition"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
         </div>
       </div>
     </div>
@@ -601,7 +623,7 @@
 </footer>
 
 <!-- floating buttons -->
-<a href="https://wa.me/201030323672" target="_blank" rel="noopener noreferrer" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center">
+<a href="https://wa.me/201030070597" target="_blank" rel="noopener noreferrer" class="whatsapp-float w-14 h-14 rounded-full flex items-center justify-center">
   <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
 </a>
 <button id="back-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full btn-gold flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
@@ -634,6 +656,63 @@
       <button id="checkout-btn" type="button" aria-label="إتمام الطلب عبر واتساب" class="btn-gold w-full py-4 flex items-center justify-center gap-2 text-sm disabled:opacity-40 disabled:pointer-events-none"><i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i> إتمام الطلب عبر واتساب</button>
       <button id="clear-cart" type="button" aria-label="تفريغ السلة بالكامل" class="w-full text-center text-xs text-[#666] hover:text-red-400 transition py-2 rounded-full hover:bg-white/5">تفريغ السلة</button>
       <p class="text-[11px] text-[#555] text-center leading-relaxed">سيتم فتح واتساب برسالة منظمة بطلبك للمراجعة قبل الإرسال.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- INVOICE TEMPLATE FOR IMAGE CAPTURE -->
+<div id="invoice-capture" aria-hidden="true">
+  <div class="inv-wrap">
+    <div class="inv-header">
+      <h1>كرم الشام</h1>
+      <p>أصالة المطبخ السوري بلمسة فاخرة - بلقاس، الدقهلية</p>
+      <p style="margin-top:10px;font-size:12px;color:#C9A227;letter-spacing:1px;">KARAM AL SHAM RESTAURANT</p>
+    </div>
+    <div class="inv-body">
+      <div class="inv-meta">
+        <div>
+          <div><strong>رقم الطلب:</strong> <span id="inv-number" style="color:#C9A227;font-weight:900;font-size:16px;">#1</span></div>
+          <div><strong>التاريخ:</strong> <span id="inv-date"></span></div>
+          <div><strong>الوقت:</strong> <span id="inv-time"></span></div>
+        </div>
+        <div style="text-align:left;" dir="ltr">
+          <div><strong>Phone:</strong> 01030323672 (رنين)</div>
+          <div><strong>WhatsApp:</strong> 01030070597</div>
+          <div>بلقاس - الدقهلية</div>
+        </div>
+      </div>
+      <table class="inv-table">
+        <thead><tr><th>#</th><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+        <tbody id="inv-items"></tbody>
+      </table>
+      <div class="inv-total"><span class="label">الإجمالي المستحق</span><span class="value" id="inv-total">0 ج.م</span></div>
+      <div style="margin-top:14px;font-size:12px;color:#555;line-height:1.8;background:#fffbe6;border:1px solid #f5e7b2;border-radius:10px;padding:10px 14px;">
+        <strong>ملاحظة:</strong> سيتم التواصل لتأكيد العنوان ووقت التوصيل. شكراً لثقتكم بكرم الشام ❤️
+      </div>
+    </div>
+    <div class="inv-footer">
+      فاتورة إلكترونية - كرم الشام - بلقاس<br>
+      هذه الفاتورة صادرة تلقائياً ولا تحتاج ختم. رقم الطلب يومي ويتصفر الساعة 12 صباحاً
+    </div>
+  </div>
+</div>
+
+<!-- Invoice preview modal -->
+<div id="invoice-modal" class="fixed inset-0 z-[100] hidden">
+  <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" id="invoice-modal-bg"></div>
+  <div class="absolute inset-0 flex items-center justify-center p-4">
+    <div class="bg-[#111] border border-[#C9A227]/20 rounded-[20px] w-full max-w-[420px] overflow-hidden shadow-2xl">
+      <div class="p-5 border-b border-white/5 flex justify-between items-center"><h3 class="font-black">فاتورتك جاهزة</h3><button id="close-invoice-modal" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">✕</button></div>
+      <div class="p-5 text-center">
+        <img id="invoice-preview-img" alt="معاينة الفاتورة" class="w-full rounded-xl border border-white/10 bg-white">
+        <p class="text-xs text-[#999] mt-3">رقم الطلب اليومي: <span id="invoice-preview-number" class="text-[#C9A227] font-black"></span> - يتصفر 12 صباحاً</p>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+          <button id="download-invoice" class="btn-outline py-3 text-sm flex items-center justify-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> تحميل الصورة</button>
+          <button id="send-whatsapp-invoice" class="btn-gold py-3 text-sm flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> إرسال واتساب</button>
+        </div>
+        <p class="text-[11px] text-[#666] mt-3 leading-relaxed">سيتم تحميل الفاتورة كصورة وإرسال تفاصيل الطلب على واتساب <span dir="ltr">01030070597</span>. يمكنك إرفاق الصورة يدوياً في واتساب إذا لم يدعم المتصفح المشاركة المباشرة.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -788,20 +867,116 @@ function renderCart(){
 function addToCart(item){
   const ex = cart.find(c=>c.name===item.name);
   if(ex) ex.qty+=1; else cart.push({name:item.name, price:item.price, img:item.img, qty:1});
-  saveCart(); renderCart(); updateCartCount(); toast('تمت إضافة ' + item.name);
+  saveCart(); renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+ toast('تمت إضافة ' + item.name);
 }
-function removeFromCart(name){ cart = cart.filter(c=>c.name!==name); saveCart(); renderCart(); updateCartCount(); }
-function changeQty(name, delta){ const it=cart.find(c=>c.name===name); if(!it) return; it.qty+=delta; if(it.qty<=0) removeFromCart(name); else { saveCart(); renderCart(); updateCartCount(); } }
+function removeFromCart(name){ cart = cart.filter(c=>c.name!==name); saveCart(); renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+ }
+function changeQty(name, delta){ const it=cart.find(c=>c.name===name); if(!it) return; it.qty+=delta; if(it.qty<=0) removeFromCart(name); else { saveCart(); renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+ } }
 function openCart(){ const d=document.getElementById('cart-drawer'); if(d){ d.classList.add('open'); d.setAttribute('aria-hidden','false'); } document.body.style.overflow='hidden'; }
 function closeCart(){ const d=document.getElementById('cart-drawer'); if(d){ d.classList.remove('open'); d.setAttribute('aria-hidden','true'); } document.body.style.overflow=''; }
-function checkout(){
-  if(cart.length===0) return;
-  let msg = '*طلب جديد - كرم الشام*%0A%0A';
+async function checkout(){
+  if(cart.length===0){ toast('السلة فارغة'); return; }
+  const btn = document.getElementById('checkout-btn');
+  const orig = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled=true; btn.innerHTML='جاري تجهيز الفاتورة...'; }
+  try{
+    const orderNum = getNextOrderNumber();
+    currentInvoiceNumber = orderNum;
+    const {blob, canvas} = await generateInvoiceImage(orderNum);
+    currentInvoiceBlob = blob;
+    const url = URL.createObjectURL(blob);
+    // preview
+    const previewImg = document.getElementById('invoice-preview-img');
+    const previewNum = document.getElementById('invoice-preview-number');
+    const modal = document.getElementById('invoice-modal');
+    if(previewImg) previewImg.src = url;
+    if(previewNum) previewNum.textContent = '#' + orderNum;
+    if(modal){ modal.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+    if(window.lucide) lucide.createIcons();
+  }catch(e){
+    console.error(e);
+    toast('حدث خطأ أثناء إنشاء الفاتورة، سيتم الإرسال كنص');
+    fallbackTextCheckout();
+  }finally{
+    if(btn){ btn.disabled=false; btn.innerHTML=orig; }
+  }
+}
+
+function fallbackTextCheckout(){
+  const orderNum = peekOrderNumber();
+  let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب اليومي: #${orderNum}%0A%0A`;
   cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  msg += `%0A*الإجمالي:* ${total} ج.م%0A%0Aالعنوان: بلقاس%0A`; 
-  window.open(`https://wa.me/201030323672?text=${msg}`, '_blank', 'noopener');
+  msg += `%0A*الإجمالي:* ${total} ج.م%0A`; 
+  window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
 }
+
+async function downloadInvoice(){
+  if(!currentInvoiceBlob) return;
+  const url = URL.createObjectURL(currentInvoiceBlob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `فاتورة-كرم-الشام-#${currentInvoiceNumber}-${getTodayKey()}.png`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  toast('تم تحميل الفاتورة');
+}
+
+async function sendWhatsappWithInvoice(){
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب اليومي: #${currentInvoiceNumber}%0A%0A`;
+  cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
+  msg += `%0A*الإجمالي:* ${total} ج.م%0Aالعنوان: بلقاس (يرجى تأكيد العنوان)%0A%0A*الفاتورة مرفقة كصورة* - إذا لم تظهر، تم تحميلها على جهازك`;
+
+  // Try Web Share API with file (works on mobile)
+  if(currentInvoiceBlob && navigator.canShare && navigator.share){
+    try{
+      const file = new File([currentInvoiceBlob], `فاتورة-كرم-الشام-#${currentInvoiceNumber}.png`, {type:'image/png'});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file], title:`فاتورة كرم الشام #${currentInvoiceNumber}`, text: msg});
+        toast('تمت المشاركة');
+        return;
+      }
+    }catch(err){ console.log('share failed, fallback', err); }
+  }
+  // Fallback: download + open whatsapp text
+  await downloadInvoice();
+  window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
+  // clear cart after sending?
+  // cart=[]; saveCart(); renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+ closeCart();
+}
+
 
 
 function renderMenu(){
@@ -937,10 +1112,26 @@ document.getElementById('cart-btn')?.addEventListener('click', openCart);
 document.getElementById('cart-btn-mobile')?.addEventListener('click', openCart);
 document.getElementById('close-cart')?.addEventListener('click', closeCart);
 document.getElementById('cart-overlay')?.addEventListener('click', closeCart);
-document.getElementById('clear-cart')?.addEventListener('click', (e)=>{ e.preventDefault(); cart=[]; saveCart(); renderCart(); updateCartCount(); toast('تم تفريغ السلة'); });
+document.getElementById('clear-cart')?.addEventListener('click', (e)=>{ e.preventDefault(); cart=[]; saveCart(); renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+ toast('تم تفريغ السلة'); });
 document.getElementById('checkout-btn')?.addEventListener('click', checkout);
 document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeCart(); }});
 renderCart(); updateCartCount();
+
+document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
+document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
+// Auto reset counter display at midnight - check every minute
+setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
+
 lucide.createIcons();
 
 document.getElementById('menu-search').addEventListener('input', renderMenu);
