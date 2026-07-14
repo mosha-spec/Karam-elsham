@@ -243,6 +243,12 @@
   #toast.show{opacity:1;transform:translate(-50%,0);}
 
   /* INVOICE TEMPLATE - hidden but capturable */
+  
+  #invoice-loading{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+  #invoice-loading.show{opacity:1;pointer-events:all;}
+  .spin{width:48px;height:48px;border:3px solid rgba(201,162,39,0.2);border-top-color:#C9A227;border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 16px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
   #invoice-capture{position:fixed;left:-9999px;top:0;width:740px;background:#fff;color:#111;padding:0;font-family:'Tajawal','Cairo',sans-serif;direction:rtl;}
   .inv-wrap{border:3px solid #C9A227;border-radius:18px;overflow:hidden;}
   .inv-header{background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);color:#fff;padding:28px 32px;text-align:center;border-bottom:3px solid #C9A227;}
@@ -662,6 +668,16 @@
 
 
 <!-- INVOICE TEMPLATE FOR IMAGE CAPTURE -->
+
+<div id="invoice-loading" aria-live="polite" aria-busy="true">
+  <div class="bg-[#111] border border-[#C9A227]/25 rounded-[20px] p-8 w-[90%] max-w-[320px] text-center shadow-2xl">
+    <div class="spin"></div>
+    <p class="text-[#F5E7B2] font-black text-[15px]">جاري تحميل الفاتورة...</p>
+    <p class="text-[#888] text-xs mt-2">رقم الطلب اليومي <span id="loading-order-num" class="text-[#C9A227] font-bold">#1</span></p>
+    <p class="text-[10px] text-[#555] mt-1">يتصفر تلقائياً الساعة 12 صباحاً</p>
+  </div>
+</div>
+
 <div id="invoice-capture" aria-hidden="true">
   <div class="inv-wrap">
     <div class="inv-header">
@@ -901,88 +917,105 @@ async function checkout(){
   if(cart.length===0){ toast('السلة فارغة'); return; }
   const btn = document.getElementById('checkout-btn');
   const orig = btn ? btn.innerHTML : '';
-  if(btn){ btn.disabled=true; btn.innerHTML='جاري تجهيز الفاتورة...'; }
+  const loadingEl = document.getElementById('invoice-loading');
+  const loadingNum = document.getElementById('loading-order-num');
   try{
     const orderNum = getNextOrderNumber();
     currentInvoiceNumber = orderNum;
-    const {blob, canvas} = await generateInvoiceImage(orderNum);
+    if(loadingNum) loadingNum.textContent = '#' + orderNum;
+    if(loadingEl) loadingEl.classList.add('show');
+    if(btn){ btn.disabled=true; btn.innerHTML='جاري التجهيز...'; }
+    // small delay to show loading UI
+    await new Promise(r=>setTimeout(r, 400));
+    const {blob} = await generateInvoiceImage(orderNum);
     currentInvoiceBlob = blob;
     const url = URL.createObjectURL(blob);
     const previewImg = document.getElementById('invoice-preview-img');
     const previewNum = document.getElementById('invoice-preview-number');
-    const modal = document.getElementById('invoice-modal');
     if(previewImg){ previewImg.src = url; previewImg.style.background='#fff'; }
     if(previewNum) previewNum.textContent = '#' + orderNum;
+    // hide loading, show modal
+    if(loadingEl) loadingEl.classList.remove('show');
+    const modal = document.getElementById('invoice-modal');
     if(modal){ modal.classList.remove('hidden'); document.body.style.overflow='hidden'; }
+    // reset send button state - require download first per user idea
+    const sendBtn = document.getElementById('send-whatsapp-invoice');
+    const dlBtn = document.getElementById('download-invoice');
+    if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i data-lucide="send" class="w-4 h-4"></i> إرسال الفاتورة'; sendBtn.classList.remove('opacity-50','pointer-events-none'); }
+    if(dlBtn){ dlBtn.innerHTML='<i data-lucide="download" class="w-4 h-4"></i> تحميل الفاتورة'; }
     if(window.lucide) lucide.createIcons();
-    toast('تم إنشاء الفاتورة #' + orderNum);
+    toast('الفاتورة جاهزة - حملها أولاً ثم أرسلها');
   }catch(e){
     console.error('invoice error', e);
-    // Fallback to text but without scary error
-    const orderNum = getNextOrderNumber();
+    const loadingEl2 = document.getElementById('invoice-loading');
+    if(loadingEl2) loadingEl2.classList.remove('show');
+    // Fallback: still allow whatsapp text
+    const orderNum = peekOrderNumber();
     currentInvoiceNumber = orderNum;
-    toast('تم تجهيز الطلب #' + orderNum + ' - سيتم الإرسال كنص');
-    // Still open whatsapp text
     let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب: #${orderNum}%0A%0A`;
     cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
     const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
     msg += `%0A*الإجمالي:* ${total} ج.م%0A`;
     window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
+    toast('تم فتح واتساب بالنص - الفاتورة الصورة غير متاحة حالياً');
   }finally{
-    if(btn){ btn.disabled=false; btn.innerHTML=orig; }
+    const btn2 = document.getElementById('checkout-btn');
+    if(btn2){ btn2.disabled=false; btn2.innerHTML=orig || '<i data-lucide="send" class="w-4 h-4"></i> إتمام الطلب عبر واتساب'; if(window.lucide) lucide.createIcons(); }
+    const l = document.getElementById('invoice-loading'); if(l) setTimeout(()=>l.classList.remove('show'), 300);
   }
 }
 
-function fallbackTextCheckout(){
-  const orderNum = peekOrderNumber();
-  let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب اليومي: #${orderNum}%0A%0A`;
-  cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
-  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  msg += `%0A*الإجمالي:* ${total} ج.م%0A`; 
-  window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
-}
-
+let hasDownloaded = false;
 async function downloadInvoice(){
-  if(!currentInvoiceBlob) return;
+  if(!currentInvoiceBlob){ toast('الفاتورة غير جاهزة'); return; }
   const url = URL.createObjectURL(currentInvoiceBlob);
   const a = document.createElement('a');
   a.href = url;
   a.download = `فاتورة-كرم-الشام-#${currentInvoiceNumber}-${getTodayKey()}.png`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(url), 2000);
-  toast('تم تحميل الفاتورة');
+  hasDownloaded = true;
+  toast('تم تحميل الفاتورة ✓ الآن اضغط إرسال');
+  // highlight send button
+  const sendBtn = document.getElementById('send-whatsapp-invoice');
+  if(sendBtn){ sendBtn.classList.add('ring-2','ring-[#C9A227]','ring-offset-2','ring-offset-[#111]'); setTimeout(()=>sendBtn.classList.remove('ring-2','ring-offset-2'), 2000); }
+  if(window.lucide) lucide.createIcons();
 }
 
 async function sendWhatsappWithInvoice(){
+  if(!currentInvoiceNumber){ toast('لا يوجد طلب'); return; }
+  // User idea: after download, go directly to WhatsApp number
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب اليومي: #${currentInvoiceNumber}%0A%0A`;
+  let msg = `*طلب جديد - كرم الشام*%0A`;
+  msg += `رقم الطلب اليومي: #${currentInvoiceNumber}%0A`;
+  msg += `التاريخ: ${new Date().toLocaleDateString('ar-EG')}%0A%0A`;
   cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
-  msg += `%0A*الإجمالي:* ${total} ج.م%0Aالعنوان: بلقاس (يرجى تأكيد العنوان)%0A%0A*الفاتورة مرفقة كصورة* - إذا لم تظهر، تم تحميلها على جهازك`;
-
-  // Try Web Share API with file (works on mobile)
-  if(currentInvoiceBlob && navigator.canShare && navigator.share){
+  msg += `%0A*الإجمالي:* ${total} ج.م%0A`;
+  msg += `العنوان: بلقاس (يرجى تأكيد العنوان)%0A`;
+  msg += `%0A_الفاتورة الصورة تم تحميلها${hasDownloaded ? '' : ' - يرجى تحميلها'} - أرفقها هنا_`;
+  
+  // Try Web Share with file if available (mobile)
+  if(currentInvoiceBlob && navigator.canShare){
     try{
       const file = new File([currentInvoiceBlob], `فاتورة-كرم-الشام-#${currentInvoiceNumber}.png`, {type:'image/png'});
       if(navigator.canShare({files:[file]})){
         await navigator.share({files:[file], title:`فاتورة كرم الشام #${currentInvoiceNumber}`, text: msg});
-        toast('تمت المشاركة');
+        toast('تمت المشاركة بنجاح');
+        // optional: clear cart after share
+        // cart=[]; saveCart(); renderCart(); updateCartCount(); closeCart();
+        // document.getElementById('invoice-modal')?.classList.add('hidden');
         return;
       }
-    }catch(err){ console.log('share failed, fallback', err); }
+    }catch(err){ console.log('share failed, fallback to wa.me', err); }
   }
-  // Fallback: download + open whatsapp text
-  await downloadInvoice();
-  window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
-  // clear cart after sending?
-  // cart=[]; saveCart(); renderCart(); updateCartCount();
-
-document.getElementById('close-invoice-modal')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
-document.getElementById('invoice-modal-bg')?.addEventListener('click', ()=>{ document.getElementById('invoice-modal')?.classList.add('hidden'); document.body.style.overflow=''; });
-document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
-document.getElementById('send-whatsapp-invoice')?.addEventListener('click', sendWhatsappWithInvoice);
-// Auto reset counter display at midnight - check every minute
-setInterval(()=>{ const today=getTodayKey(); try{ const raw=localStorage.getItem('karam_orders_meta'); if(raw){ const p=JSON.parse(raw); if(p.date!==today){ localStorage.setItem('karam_orders_meta', JSON.stringify({date:today,counter:0})); } } }catch(e){} }, 60000);
- closeCart();
+  // Fallback: if not downloaded yet, download first then open whatsapp
+  if(!hasDownloaded && currentInvoiceBlob){
+    await downloadInvoice();
+    await new Promise(r=>setTimeout(r, 600));
+  }
+  // Open WhatsApp directly to number
+  window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  toast('تم فتح واتساب - أرسل الفاتورة المرفقة');
 }
 
 
