@@ -908,18 +908,26 @@ async function checkout(){
     const {blob, canvas} = await generateInvoiceImage(orderNum);
     currentInvoiceBlob = blob;
     const url = URL.createObjectURL(blob);
-    // preview
     const previewImg = document.getElementById('invoice-preview-img');
     const previewNum = document.getElementById('invoice-preview-number');
     const modal = document.getElementById('invoice-modal');
-    if(previewImg) previewImg.src = url;
+    if(previewImg){ previewImg.src = url; previewImg.style.background='#fff'; }
     if(previewNum) previewNum.textContent = '#' + orderNum;
     if(modal){ modal.classList.remove('hidden'); document.body.style.overflow='hidden'; }
     if(window.lucide) lucide.createIcons();
+    toast('تم إنشاء الفاتورة #' + orderNum);
   }catch(e){
-    console.error(e);
-    toast('حدث خطأ أثناء إنشاء الفاتورة، سيتم الإرسال كنص');
-    fallbackTextCheckout();
+    console.error('invoice error', e);
+    // Fallback to text but without scary error
+    const orderNum = getNextOrderNumber();
+    currentInvoiceNumber = orderNum;
+    toast('تم تجهيز الطلب #' + orderNum + ' - سيتم الإرسال كنص');
+    // Still open whatsapp text
+    let msg = `*طلب جديد - كرم الشام*%0Aرقم الطلب: #${orderNum}%0A%0A`;
+    cart.forEach((c,i)=>{ msg += `${i+1}. ${c.name} × ${c.qty} = ${c.price*c.qty} ج.م%0A`; });
+    const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+    msg += `%0A*الإجمالي:* ${total} ج.م%0A`;
+    window.open(`https://wa.me/201030070597?text=${encodeURIComponent(msg)}`, '_blank');
   }finally{
     if(btn){ btn.disabled=false; btn.innerHTML=orig; }
   }
